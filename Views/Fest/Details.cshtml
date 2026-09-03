@@ -1,0 +1,66 @@
+@model Participant
+@{
+    ViewData["Title"] = "Participant Details";
+    var status = Model.GetRegistrationStatus();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">Participant Details</h1>
+    <a class="btn btn-outline-secondary" asp-action="Index">Back to Index</a>
+</div>
+
+@if (status == "Confirmed")
+{
+    <div class="alert alert-success">
+        <strong>Registration Confirmed!</strong> Your registration has been successfully completed.
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>Registration Pending!</strong> Please complete your registration.
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">Welcome, @Model.ParticipantName!</h4>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            You are registered for <strong>@Model.EventName</strong>.
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-4">Participant ID</dt>
+            <dd class="col-sm-8">@Model.ParticipantId</dd>
+
+            <dt class="col-sm-4">Participant Name</dt>
+            <dd class="col-sm-8">@Model.ParticipantName</dd>
+
+            <dt class="col-sm-4">Email</dt>
+            <dd class="col-sm-8">@Model.Email</dd>
+
+            <dt class="col-sm-4">Department</dt>
+            <dd class="col-sm-8">@Model.Department</dd>
+
+            <dt class="col-sm-4">Year</dt>
+            <dd class="col-sm-8">@Model.Year</dd>
+
+            <dt class="col-sm-4">Event</dt>
+            <dd class="col-sm-8">@Model.EventName</dd>
+
+            <dt class="col-sm-4">Team Event</dt>
+            <dd class="col-sm-8">@(Model.IsTeamEvent ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-4">Registration Status</dt>
+            <dd class="col-sm-8"><span class="badge bg-success">@status</span></dd>
+
+            <dt class="col-sm-4">Registration Fee</dt>
+            <dd class="col-sm-8">₹@Model.GetRegistrationFee().ToString("0.00")</dd>
+
+            <dt class="col-sm-4">Fee Category</dt>
+            <dd class="col-sm-8">@Model.GetFeeCategory()</dd>
+        </dl>
+    </div>
+</div>
